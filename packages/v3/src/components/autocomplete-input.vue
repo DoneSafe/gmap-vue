@@ -26,7 +26,7 @@ import {
 } from '@/composables';
 import type { IAutoCompleteInputVueComponentProps } from '@/interfaces';
 import { $autocompletePromise } from '@/keys';
-import { onMounted, onUnmounted, provide, useTemplateRef, watch } from 'vue';
+import { onUnmounted, provide, useTemplateRef, watch } from 'vue';
 
 /**
  * Autocomplete component
@@ -118,29 +118,7 @@ provide(props.autocompleteKey ?? $autocompletePromise, promise);
  * METHODS
  ******************************************************************************/
 
-/*******************************************************************************
- * WATCHERS
- ******************************************************************************/
-watch(
-  () => props.componentRestrictions,
-  async (newValue, oldValue) => {
-    const autocomplete = await promise;
-
-    if (!autocomplete) {
-      console.error('the autocomplete instance is not defined');
-      return;
-    }
-
-    if (newValue && newValue !== oldValue) {
-      autocomplete.setComponentRestrictions(newValue);
-    }
-  },
-);
-
-/*******************************************************************************
- * HOOKS
- ******************************************************************************/
-onMounted(() => {
+const init = () => {
   useGoogleMapsApiPromiseLazy()
     ?.then(async () => {
       const scopedInput = props.slotRef
@@ -223,7 +201,29 @@ onMounted(() => {
     .catch((error: unknown) => {
       throw error;
     });
-});
+};
+/*******************************************************************************
+ * WATCHERS
+ ******************************************************************************/
+watch(
+  () => props.componentRestrictions,
+  async (newValue, oldValue) => {
+    const autocomplete = await promise;
+
+    if (!autocomplete) {
+      console.error('the autocomplete instance is not defined');
+      return;
+    }
+
+    if (newValue && newValue !== oldValue) {
+      autocomplete.setComponentRestrictions(newValue);
+    }
+  },
+);
+
+/*******************************************************************************
+ * HOOKS
+ ******************************************************************************/
 
 onUnmounted(() => {
   useDestroyPromisesOnUnmounted(props.autocompleteKey ?? $autocompletePromise);
@@ -238,5 +238,6 @@ onUnmounted(() => {
  ******************************************************************************/
 defineExpose({
   autocompletePromise: promise,
+  init,
 });
 </script>

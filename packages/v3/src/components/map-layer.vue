@@ -349,7 +349,7 @@ async function panToBounds(
  */
 async function fitBounds(
   bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral,
-  padding: number | google.maps.Padding,
+  padding?: number | google.maps.Padding,
 ): Promise<void> {
   const mapInstance = await promise;
 

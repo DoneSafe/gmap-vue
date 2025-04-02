@@ -139,6 +139,8 @@ export interface IGmvUtilities {
 export type TGoogleMapsInstances =
   | google.maps.Map
   | google.maps.marker.AdvancedMarkerElement
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  | google.maps.Marker
   | google.maps.InfoWindow
   | google.maps.places.Autocomplete
   | google.maps.KmlLayer

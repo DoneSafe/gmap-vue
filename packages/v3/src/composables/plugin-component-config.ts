@@ -54,8 +54,8 @@ const componentConfigs: TPluginComponentConfig = {
     ],
     trackProperties: {},
     events: {
-      auto: ['click', 'drag', 'dragstart', 'gmp-click'],
-      manual: ['dragend', 'update:position'],
+      auto: ['click', 'drag', 'dragstart', 'gmp-click', 'dragend'],
+      manual: [],
     },
   },
   GmvCluster: {

@@ -25,7 +25,6 @@ import {
   type RendererNode,
   type VNode,
 } from 'vue';
-
 /**
  * Marker component
  * @displayName GmvMarker
@@ -136,10 +135,11 @@ mapPromise
       markerIconOptions.map = undefined;
     }
 
-    const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+    const { Marker } = (await google.maps.importLibrary(
       'marker',
     )) as google.maps.MarkerLibrary;
-    const marker = new AdvancedMarkerElement(markerIconOptions);
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    const marker = new Marker(markerIconOptions);
 
     const markerIconPropsConfig = getComponentPropsConfig('GmvMarker');
     const markerIconEventsConfig = getComponentEventsConfig(
@@ -163,24 +163,6 @@ mapPromise
       excludedEvents,
     );
 
-    marker.addListener('dragend', () => {
-      const newPosition = marker.position;
-      /**
-       * An event to detect when a position changes
-       * @property {Object} position Object with lat and lng values, eg: { lat: 10.0, lng: 10.0 }
-       */
-      emits('update:position', {
-        lat:
-          typeof newPosition?.lat === 'number'
-            ? newPosition.lat
-            : newPosition?.lat(),
-        lng:
-          typeof newPosition?.lng === 'number'
-            ? newPosition.lng
-            : newPosition?.lng(),
-      });
-    });
-
     if (clusterPromise) {
       clusterPromise
         .then((clusterInstance) => {
@@ -196,7 +178,9 @@ mapPromise
       throw new Error('markerPromiseDeferred.resolve is undefined');
     }
 
-    markerPromiseDeferred.resolve(marker);
+    markerPromiseDeferred.resolve(
+      marker as unknown as google.maps.marker.AdvancedMarkerElement,
+    );
   })
   .catch((reason: unknown) => {
     throw reason;

@@ -1,7 +1,7 @@
 {
-  "name": "@gmap-vue/v3",
-  "version": "2.1.5",
-  "description": "This is a google map component for Vue.js, updated for Vue 2 compatibility",
+  "name": "@donesafe/gmap-vue-v3",
+  "version": "2.1.5-ds.0",
+  "description": "This is a google map component for Vue.js, updated for Vue 3 compatibility",
   "type": "module",
   "main": "dist/main.umd.js",
   "module": "dist/main.es.js",

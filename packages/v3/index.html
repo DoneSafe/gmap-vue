@@ -11,11 +11,11 @@
 
     <script type="module">
       import { createApp } from 'vue';
-      import { GmapVuePlugin } from './src/main.ts';
+      import { createGmapVuePlugin } from './src/main.ts';
       import App from './cypress/runner/components/App.vue';
 
       window.app = createApp(App)
-        .use(GmapVuePlugin, {
+        .use(createGmapVuePlugin({
           excludeEventsOnAllComponents() {
             return [
               'mousedown',
@@ -29,7 +29,7 @@
             key: import.meta.env.VITE_GOOGLE_API_KEY,
             libraries: 'places,visualization,drawing',
           },
-        })
+        }))
         .mount('#app');
     </script>
   </body>
